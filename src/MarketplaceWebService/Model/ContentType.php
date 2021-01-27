@@ -64,7 +64,14 @@ class MarketplaceWebService_Model_ContentType  extends MarketplaceWebService_Mod
     }
     
     public function isSetParameters() {
-    	return count ($this->fields['Parameters']['FieldValue']) > 0;
+        // Throws an error on PHP 7.2 and greater
+        // https://github.com/caponica/AmazonMwsComplete/issues/20
+        //return count ($this->fields['Parameters']['FieldValue']) > 0;
+        if (is_array($this->fields['Parameters']['FieldValue'])) {
+            return count ($this->fields['Parameters']['FieldValue']) > 0;
+        } else {
+            return false;
+        }
     }
 
 	public function toString() {
